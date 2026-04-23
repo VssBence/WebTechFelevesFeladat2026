@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adatlap</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="result" class="card adatlap"></div>
+    
+    <script src="app.js"></script>
+    <script>
+
+        async function loadCar(id){
+            try{
+                const res = await fetch(`https://iit-playground.arondev.hu/api/${NeptunCode}/car/${id}`,{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                console.log(data);
+
+                if(!res.ok){
+                    alert("Hiba az autó lekérdezése során!");
+                }
+
+                const ResultDiv = document.querySelector('#result');
+                ResultDiv.innerHTML = `
+                            <img src="https://cdn.jsdelivr.net/gh/filippofilip95/car-logos-dataset@latest/logos/thumb/${data.brand.toLowerCase()}.png">
+                            <p><strong>Gyártó:</strong> ${data.brand}</p>
+                            <p><strong>Gyártás dátuma:</strong> ${data.dayOfCommission}</p>
+                            <p><strong>Hajtás:</strong> ${data.electric ? "Elektromos" : "Benzines"}</p>
+                            <p><strong>Fogyasztás:</strong> ${data.fuelUse.toFixed(2)} L</p>
+                            <p><strong>Model: </strong> ${data.model}</p>
+                            <p><strong>Tulajdonos:</strong> ${data.owner}</p>
+                `
+
+
+            }catch(err){
+                console.log("Hiba az adatok betöltése során:" + err);
+                alert("Hiba az adatok betöltésekor.");
+            }
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const getId = params.get('id');
+        loadCar(getId);
+
+    </script>
+</body>
+</html>
