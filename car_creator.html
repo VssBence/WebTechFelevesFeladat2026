@@ -7,11 +7,115 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+    <div>
+        <h2>Autó hozzáadása</h2>
+        <button id="create-btn">Autó létrehozása</button>
+    </div>
+
+    <div id="result"></div>
 
     <script src="app.js"></script>
     <script>
-        
+        async function CreateCar(){
+            const targetDiv = document.querySelector('#result');
+            targetDiv.innerHTML = `
+                <p><strong>Gyártó:</strong></p> <input type="text" id="brand" placeholder="pl. Lexus"></input>
+                <p><strong>Gyártás dátuma:</strong></p> <input type="date" id="dayOfCommission" value=""></input>
+                <p><strong>Hajtás:</strong></p>
+                    <label for="electric">Elektromos</label>
+                    <input type="radio" name="power" id="electric">
+                    <br>
+                    <label for="gas">Benzines</label>
+                    <input type="radio" name="power" id="gas" checked></input>
+
+                <p><strong>Fogyasztás:</strong></p> <input type="number" id="fuelUse" placeholder="pl. 10" min=0></input><label for="fuelUse"> L</label>
+                <p><strong>Model:</strong></p> <input type="text" id="model" placeholder="pl. Civic"></input>
+                <p><strong>Tulajdonos:</strong></p> <input type="text" id="owner" placeholder="pl. Kis Pista"></input>
+                <br>
+                <button id="send-btn">Mentés</button>
+
+            `
+
+            const electricRadio = document.querySelector('#electric');
+            const gasRadio = document.querySelector('#gas');
+            const fogyasztasField = document.querySelector('#fuelUse');
+
+            electricRadio.addEventListener('change',() => {
+                fogyasztasField.value = 0;
+                fogyasztasField.readOnly = true;
+            })
+            
+            gasRadio.addEventListener('change',() => {
+                fogyasztasField.readOnly = false;
+            })
+
+
+            const sendGomb = document.querySelector('#send-btn');
+            sendGomb.addEventListener('click',async () => {
+                    const HajtasElem = document.querySelector('input[name="power"]:checked');
+                    const isElectric = HajtasElem && HajtasElem.id == 'electric';
+
+                    const BrandTartalom = document.querySelector('#brand').value.trim();
+                    const DayOfCommissionTartalom = document.querySelector('#dayOfCommission').value;
+                    const fuelUseTartalom = document.querySelector('#fuelUse').value;
+                    const modelTartalom = document.querySelector('#model').value;
+                    const ownerTartalom = document.querySelector('#owner').value;
+
+
+
+                    
+
+                    const carData = {
+                        id : 1,
+                        brand : BrandTartalom,
+                        model : modelTartalom,
+                        fuelUse : parseFloat(fuelUseTartalom),
+                        owner : ownerTartalom,
+                        dayOfCommission : DayOfCommissionTartalom,
+                        electric : isElectric,
+                    }
+
+                    console.log(JSON.stringify(carData));
+
+                    try{
+                        const res = await fetch(`https://iit-playground.arondev.hu/api/${NeptunCode}/car`,{
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body : JSON.stringify(carData)
+                        });
+
+                        const responseText = await res.json();
+
+                        if(!res.ok){
+                            alert("Hiba a kocsi hozzáadása során: " + responseText.message);
+                        }else{
+                            alert("Sikeresen hozzáadva!");
+                            targetDiv.innerHTML = "";
+                            const CreateGomb = document.querySelector('#create-btn');
+                            CreateGomb.style.display = 'block';
+                        }
+
+                    }catch(err){
+                        console.log(err);
+                        alert("Hiba a kocsi hozzáadása során: " + err);
+                    }
+
+                    
+
+
+            })
+        }
+
+        const CreateGomb = document.querySelector('#create-btn');
+        CreateGomb.addEventListener('click',() => {
+            CreateGomb.style.display = 'none'
+            CreateCar();
+            
+        })
+
 
     </script>
 </body>

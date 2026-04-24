@@ -71,6 +71,7 @@ p {
 .btn-save {
     background-color: #35dc35;
     color: white;
+    border: 1px solid #28a745;
 }
 
 .btn:hover {

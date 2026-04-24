@@ -10,9 +10,11 @@
     
     <div>
         <h2>Autó Menü</h2>
-        <button id="send-btn">Autók Menü</button>
+        <button id="send-btn">Autók listázása</button>
     </div>
     
+
+
 
     
 
@@ -31,6 +33,10 @@
                 });
                 const data = await res.json();
                 console.log(data);
+
+                if(!res.ok){
+                    alert("Hiba a betöltés során: " + data.message)
+                }
 
                 const resultDiv = document.querySelector('#result');
                 resultDiv.innerHTML = '';
@@ -53,6 +59,14 @@
                     `;
                     resultDiv.innerHTML += carHtml;
                 }
+
+                const count = `
+                <div id="counter">
+                <p><strong>Kocsik száma:</strong> ${data.length}</p>
+                </div>
+                `;
+
+                resultDiv.insertAdjacentHTML('afterbegin', count);
 
             }catch(err){
                 console.log("Hiba az adatok betöltése során:" + err);
@@ -81,7 +95,7 @@
 
 
                 if(!res.ok){
-                    alert("Hiba az autó lekérdezése során!");
+                    alert("Hiba az autó lekérdezése során!: " + data.message);
                 }
 
 
@@ -97,7 +111,7 @@
                             <p><strong>Gyártó: </strong><input type="text" id="brand" value="${data.brand}"></p>
                             <p><strong>Gyártás dátuma: </strong><input type="date" id="dayOfCommission" value="${data.dayOfCommission}"></p>
                             <p><strong>Hajtás: </strong><input type="text" id="electric" value="${data.electric ? "Elektromos" : "Benzines"}"></p>
-                            <p><strong>Fogyasztás: </strong><input type="text" id="fuelUse" value="${data.fuelUse.toFixed(2)}"> L</p>
+                            <p><strong>Fogyasztás: </strong><input type="number" id="fuelUse" value="${data.fuelUse.toFixed(2)}"> L</p>
                             <p><strong>Model: </strong><input type="text" id="model" value="${data.model}"></p>
                             <p><strong>Tulajdonos: </strong><input type="text" id="owner" value="${data.owner}"></p>
                             <button id="save" class="btn-primary btn-save">Mentés</button>
@@ -134,7 +148,7 @@
                     return;
                 }
 
-                const package = {
+                const carData = {
                     id : id,
                     brand : BrandTartalom,
                     dayOfCommission : DayOfCommissionTartalom,
@@ -151,16 +165,19 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body : JSON.stringify(package)
+                    body : JSON.stringify(carData)
                 });
+
+                data = await res.json();
+
                 if(!res.ok){
-                    alert("Hiba az autó lekérdezése során!");
+                    alert("Hiba az autó lekérdezése során!\n" + data.message);
                     return;
                 }
 
             }catch(err){
-                console.log("Hiba az adatok betöltése során:" + err);
-                alert("Hiba az adatok betöltésekor.");
+                console.log("Hiba a kocsi módosítása során:" + err);
+                alert("Hiba a kocsi módosítása során:" + err);
             }
 
                 alert("Módosítás sikeresen megtörtént!");
@@ -179,9 +196,10 @@
                         'Content-Type': 'application/json'
                     }
                 });
+                data = await res.json();
 
                 if(!res.ok){
-                    alert("Hiba az autó törlése során!: " + res.status);
+                    alert("Hiba az autó törlése során!: " + data.message);
                 }else{
                     alert("ID: " + id + " kocsi sikeresen törölve!");
                     loadDB();
@@ -194,6 +212,9 @@
                 alert("Hiba az autó törlése során a kérelemben: " + err);
             }
         }
+
+        
+
 
 
         const LekerdezesGomb = document.querySelector('#send-btn');
