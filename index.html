@@ -36,6 +36,7 @@
 
                 if(!res.ok){
                     alert("Hiba a betöltés során: " + data.message)
+                    return;
                 }
 
                 const resultDiv = document.querySelector('#result');
@@ -43,7 +44,7 @@
                 for(const car of data){
                     const carHtml = `
                     
-                        <div class="card" data="${car.id}">
+                        <div class="card" data-id="${car.id}">
                             <a href="adatlap.html?id=${car.id}">${car.brand +" "+ car.model}</a>
 
                             
@@ -53,8 +54,8 @@
                             <p><strong>Fogyasztás:</strong> ${car.fuelUse.toFixed(2)} L</p>
                             <p><strong>Model: </strong> ${car.model}</p>
                             <p><strong>Tulajdonos:</strong> ${car.owner}</p>
-                            <button onclick="modifyCar(${car.id})" id="modify" class="btn-primary">Módosítás</button>
-                            <button onclick="deleteCar(${car.id})" id="delete" class="btn-danger">Törlés</button>
+                            <button onclick="modifyCar(${car.id})" class="btn-primary">Módosítás</button>
+                            <button onclick="deleteCar(${car.id})" class="btn-danger">Törlés</button>
                             </div>
                     `;
                     resultDiv.innerHTML += carHtml;
@@ -105,7 +106,7 @@
             }
 
 
-            const TargetDiv = document.querySelector(`.card[data="${id}"]`);
+            const TargetDiv = document.querySelector(`.card[data-id="${id}"]`);
             TargetDiv.innerHTML = `
                             <p><strong>${data.brand +" "+ data.model}</strong></p>
                             <p><strong>Gyártó: </strong><input type="text" id="brand" value="${data.brand}"></p>
@@ -196,13 +197,18 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                data = await res.json();
+                const data = await res.json();
 
                 if(!res.ok){
                     alert("Hiba az autó törlése során!: " + data.message);
                 }else{
-                    alert("ID: " + id + " kocsi sikeresen törölve!");
-                    loadDB();
+                    if(!modositas){
+                        alert("ID: " + id + " kocsi sikeresen törölve!");
+                        loadDB();
+                    }else{
+                        alert("ID: " + id + " kocsi sikeresen törölve!\nA módosítások megjelenítéséhez mentse el az éppen módosítás alatt lévő autót!");
+                    }
+                    
                 }
                 
 

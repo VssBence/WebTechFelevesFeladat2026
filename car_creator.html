@@ -13,28 +13,28 @@
         <button id="create-btn">Autó létrehozása</button>
     </div>
 
-    <div id="result"></div>
+
+    <div id="result" class="card creator"></div>
 
     <script src="app.js"></script>
     <script>
         async function CreateCar(){
             const targetDiv = document.querySelector('#result');
             targetDiv.innerHTML = `
-                <p><strong>Gyártó:</strong></p> <input type="text" id="brand" placeholder="pl. Lexus"></input>
-                <p><strong>Gyártás dátuma:</strong></p> <input type="date" id="dayOfCommission" value=""></input>
+                <p><strong>Gyártó:</strong></p> <input type="text" id="brand" placeholder="pl. Lexus">
+                <p><strong>Gyártás dátuma:</strong></p> <input type="date" id="dayOfCommission" value="">
                 <p><strong>Hajtás:</strong></p>
                     <label for="electric">Elektromos</label>
                     <input type="radio" name="power" id="electric">
                     <br>
                     <label for="gas">Benzines</label>
-                    <input type="radio" name="power" id="gas" checked></input>
+                    <input type="radio" name="power" id="gas" checked>
 
-                <p><strong>Fogyasztás:</strong></p> <input type="number" id="fuelUse" placeholder="pl. 10" min=0></input><label for="fuelUse"> L</label>
-                <p><strong>Model:</strong></p> <input type="text" id="model" placeholder="pl. Civic"></input>
-                <p><strong>Tulajdonos:</strong></p> <input type="text" id="owner" placeholder="pl. Kis Pista"></input>
+                <p><strong>Fogyasztás:</strong></p> <input type="number" id="fuelUse" placeholder="pl. 10" min=0><label for="fuelUse"> L</label>
+                <p><strong>Model:</strong></p> <input type="text" id="model" placeholder="pl. Civic">
+                <p><strong>Tulajdonos:</strong></p> <input type="text" id="owner" placeholder="pl. Kis Pista">
                 <br>
                 <button id="send-btn">Mentés</button>
-
             `
 
             const electricRadio = document.querySelector('#electric');
@@ -62,9 +62,23 @@
                     const modelTartalom = document.querySelector('#model').value;
                     const ownerTartalom = document.querySelector('#owner').value;
 
+                    const kocsilista = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz', 'Volkswagen', 'Audi', 'Hyundai', 'Kia', 'Subaru', 'Lexus', 'Mazda', 'Tesla', 'Jeep', 'Porsche', 'Volvo', 'Jaguar', 'Land Rover', 'Mitsubishi', 'Ferrari', 'Lamborghini'];
 
+                    if(!(kocsilista.includes(BrandTartalom))){
+                        alert("Nem létezik ilyen gyártó!");
+                        return;
+                    }
 
-                    
+                    if(isElectric && fuelUseTartalom != 0){
+                        alert("Elektromos kocsi fogyasztása csak 0 lehet!");
+                        return;
+                    }
+
+                    if(isElectric == false && fuelUseTartalom == 0){
+                        alert("Benzines kocsi fogyasztása nem lehet 0!");
+                        return;
+                    }
+
 
                     const carData = {
                         id : 1,
