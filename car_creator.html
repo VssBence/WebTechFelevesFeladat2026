@@ -30,7 +30,7 @@
                     <label for="gas">Benzines</label>
                     <input type="radio" name="power" id="gas" checked>
 
-                <p><strong>Fogyasztás:</strong></p> <input type="number" id="fuelUse" placeholder="pl. 10" min=0><label for="fuelUse"> L</label>
+                <p><strong>Fogyasztás:</strong></p> <input type="number" id="fuelUse" placeholder="pl. 10" min=0 ><label for="fuelUse"> L</label>
                 <p><strong>Model:</strong></p> <input type="text" id="model" placeholder="pl. Civic">
                 <p><strong>Tulajdonos:</strong></p> <input type="text" id="owner" placeholder="pl. Kis Pista">
                 <br>
@@ -63,6 +63,34 @@
                     const ownerTartalom = document.querySelector('#owner').value;
 
                     const kocsilista = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz', 'Volkswagen', 'Audi', 'Hyundai', 'Kia', 'Subaru', 'Lexus', 'Mazda', 'Tesla', 'Jeep', 'Porsche', 'Volvo', 'Jaguar', 'Land Rover', 'Mitsubishi', 'Ferrari', 'Lamborghini'];
+
+                    if (!BrandTartalom){
+                        alert("A márka nem lehet üres!");
+                        return;
+                    }
+
+                    if(!DayOfCommissionTartalom){
+                        alert("A gyártási dátum nem lehet üres");
+                        return;
+                    }
+
+                    if(!fuelUseTartalom){
+                        alert("A fogyasztás nem lehet üres!");
+                        return;
+                    }
+
+                    if(!modelTartalom){
+                        alert("A model nem lehet üres!");
+                        return;
+                    }
+
+                    if(!ownerTartalom){
+                        alert("A tulajdonos nem lehet üres");
+                        return;
+                    }
+
+
+
 
                     if(!(kocsilista.includes(BrandTartalom))){
                         alert("Nem létezik ilyen gyártó!");
