@@ -129,7 +129,39 @@
                 const modelTartalom = document.querySelector('#model').value;
                 const ownerTartalom = document.querySelector('#owner').value;
 
-                
+                if(BrandTartalom == ""){
+                    alert("Márka nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(ElectricTartalom == ""){
+                    alert("Hajtás nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(document.querySelector('#fuelUse').value == ""){
+                    alert("Fogyasztás nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(modelTartalom == ""){
+                    alert("Model nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(ownerTartalom == ""){
+                    alert("Tulajdonos nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(DayOfCommissionTartalom == ""){
+                    alert("Gyártás dátuma nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+
+
+
                 if(!(kocsilista.includes(BrandTartalom))){
                     alert("Nem létezik ilyen gyártó!");
                     modositas = false;
@@ -153,21 +185,7 @@
                     modositas = false;
                     return;
                 }
-                if(modelTartalom == ""){
-                    alert("Model nem lehet üres!");
-                    modositas = false;
-                    return;
-                }
-                if(ownerTartalom == ""){
-                    alert("Tulajdonos nem lehet üres!");
-                    modositas = false;
-                    return;
-                }
-                if(DayOfCommissionTartalom == ""){
-                    alert("Gyártás dátuma nem lehet üres!");
-                    modositas = false;
-                    return;
-                }
+
 
                 const carData = {
                     id : id,
