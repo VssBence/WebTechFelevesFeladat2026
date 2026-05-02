@@ -62,8 +62,6 @@
                     const modelTartalom = document.querySelector('#model').value;
                     const ownerTartalom = document.querySelector('#owner').value;
 
-                    const kocsilista = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz', 'Volkswagen', 'Audi', 'Hyundai', 'Kia', 'Subaru', 'Lexus', 'Mazda', 'Tesla', 'Jeep', 'Porsche', 'Volvo', 'Jaguar', 'Land Rover', 'Mitsubishi', 'Ferrari', 'Lamborghini'];
-
                     if (!BrandTartalom){
                         alert("A márka nem lehet üres!");
                         return;
@@ -74,7 +72,7 @@
                         return;
                     }
 
-                    if(!fuelUseTartalom){
+                    if(fuelUseTartalom == "" && fuelUseTartalom == null){
                         alert("A fogyasztás nem lehet üres!");
                         return;
                     }
@@ -88,9 +86,6 @@
                         alert("A tulajdonos nem lehet üres");
                         return;
                     }
-
-
-
 
                     if(!(kocsilista.includes(BrandTartalom))){
                         alert("Nem létezik ilyen gyártó!");
@@ -106,7 +101,6 @@
                         alert("Benzines kocsi fogyasztása nem lehet 0!");
                         return;
                     }
-
 
                     const carData = {
                         id : 1,

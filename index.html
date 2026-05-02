@@ -97,6 +97,8 @@
 
                 if(!res.ok){
                     alert("Hiba az autó lekérdezése során!: " + data.message);
+                    modositas = false;
+                    return;
                 }
 
 
@@ -127,25 +129,43 @@
                 const modelTartalom = document.querySelector('#model').value;
                 const ownerTartalom = document.querySelector('#owner').value;
 
-                const kocsilista = ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'BMW', 'Mercedes-Benz', 'Volkswagen', 'Audi', 'Hyundai', 'Kia', 'Subaru', 'Lexus', 'Mazda', 'Tesla', 'Jeep', 'Porsche', 'Volvo', 'Jaguar', 'Land Rover', 'Mitsubishi', 'Ferrari', 'Lamborghini'];
-
+                
                 if(!(kocsilista.includes(BrandTartalom))){
                     alert("Nem létezik ilyen gyártó!");
+                    modositas = false;
                     return;
                 }
 
                 if(!(ElectricTartalom.toLowerCase() == "elektromos" || ElectricTartalom.toLowerCase() == "benzines")){
                     alert("A hajtás csak Elektromos vagy Benzines lehet!");
+                    modositas = false;
                     return;
                 }
 
                 if(ElectricTartalom.toLowerCase() == "elektromos" && fuelUseTartalom != 0){
                     alert("Elektromos kocsi fogyasztása csak 0 lehet!");
+                    modositas = false;
                     return;
                 }
 
                 if(ElectricTartalom.toLowerCase() == "benzines" && fuelUseTartalom == 0){
                     alert("Benzines kocsi fogyasztása nem lehet 0!");
+                    modositas = false;
+                    return;
+                }
+                if(modelTartalom == ""){
+                    alert("Model nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(ownerTartalom == ""){
+                    alert("Tulajdonos nem lehet üres!");
+                    modositas = false;
+                    return;
+                }
+                if(DayOfCommissionTartalom == ""){
+                    alert("Gyártás dátuma nem lehet üres!");
+                    modositas = false;
                     return;
                 }
 
@@ -173,6 +193,7 @@
 
                 if(!res.ok){
                     alert("Hiba az autó lekérdezése során!\n" + data.message);
+                    modositas = false;
                     return;
                 }
 
